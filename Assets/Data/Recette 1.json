@@ -1,0 +1,6 @@
+ {
+     "Records": [
+         {"name":"daniel", "score":100},
+         {"name":"Adrian", "score":200}
+     ]
+ }

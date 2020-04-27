@@ -1,0 +1,12 @@
+{
+    "ingredients": [
+        {"id":"Feuille brick", "category":4},
+        {"id":"Oignon", "category":0},
+        {"id":"Gousse d'ail", "category":0},
+        {"id":"Thon en boite", "category":5},
+        {"id":"Curry", "category":4},
+        {"id":"Cumin", "category":4},
+        {"id":"Curcuma", "category":4},
+        {"id":"Huile a friture", "category":2}
+    ]
+}

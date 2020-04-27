@@ -1,0 +1,16 @@
+{
+    "title": "Samoussa",
+	"numberOfPeople": 4,
+    "ingredients": [
+        {"title":"Feuille brick", "amount":10, "typeAmount":0},
+        {"title":"Oignon", "amount":3,"typeAmount":0},
+        {"title":"Thon en boite", "amount":2,"typeAmount":0},
+        {"title":"Gousse d'ail", "amount":5,"typeAmount":0},
+        {"title":"Huile a friture", "amount":1, "typeAmount":0}, 
+        {"title":"Curry", "amount":1,"typeAmount":1 },
+        {"title":"Cumin", "amount":2,"typeAmount":2 },
+        {"title":"Curcuma", "amount":1,"typeAmount":1 }
+    ],
+	"description" : "Chauffer peole",
+	"category": 3
+}
