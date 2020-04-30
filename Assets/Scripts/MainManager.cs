@@ -7,43 +7,27 @@ using static JsonParser.IngredientData;
 
 public class MainManager : MonoBehaviour
 {
+#pragma warning disable 0649
     // Check to see if we're about to be destroyed.
     private static bool m_ShuttingDown = false;
     private static object m_Lock = new object();
     private static MainManager m_Instance;
 
-    [HideInInspector]
-    public IngredientDatabase ingredientList;
+    // Managers
     [SerializeField]
     private ShoppingCanvasManager shoppingCanvasManager;
     [SerializeField]
+    private DishesCanvasManager dishesCanvasManager;
+    [SerializeField]
     private JsonParser jsonParser;
 
+    // DATA
+    [HideInInspector]
+    public IngredientDatabase ingredientList;
+    [HideInInspector]
+    public List<Recipe> recipes;
 
-    private void Start()
-    {
-        jsonParser.Init();
-        // TODO check ingredientList not null
-
-        int countEnum = IngredientData.CategoryEnum.GetNames(typeof(IngredientData.CategoryEnum)).Length;
-        IngredientData[] temp;
-        for (int i =0;i< countEnum; i++)
-        {
-            temp = Array.FindAll(ingredientList.ingredients, ele => ele.category == i && ele.Amount > 0);
-            //Debug.Log("temp " + temp.Length + " cate " + i);
-            if (temp!=null&& temp.Length > 0)
-            {
-                shoppingCanvasManager.InstanciateCategoryPrefab(((CategoryEnum)i).ToString());
-                foreach (IngredientData ingrdient in temp)
-                {
-                    if (ingrdient.Amount > 0)
-                        shoppingCanvasManager.InstanciatetogglePrefab(ingrdient.Amount, ingrdient.id);
-                }
-            }
-        }
-
-    }
-
+    public List<GameObject> ingredientToggles;
 
     /// <summary>
     /// Access singleton instance through this propriety.
@@ -83,16 +67,55 @@ public class MainManager : MonoBehaviour
         }
     }
 
-
     private void OnApplicationQuit()
     {
         m_ShuttingDown = true;
     }
 
-
     private void OnDestroy()
     {
         m_ShuttingDown = true;
+    }
+
+    private void Start()
+    {
+        jsonParser.ReadAndImportJsonDataFiles();
+        dishesCanvasManager.CreateRecipesButton(recipes);
+        ingredientToggles = new List<GameObject>();
+        RefreshDataView();
+    }
+
+    public void RefreshDataView()
+    {
+        if (ingredientToggles != null && ingredientToggles.Count>0)
+        {
+            for(int i = 0; i< ingredientToggles.Count; i++)
+            {
+                Destroy(ingredientToggles[i]);
+            }
+            ingredientToggles.Clear();
+        }
+
+        if (ingredientList != null)
+        {
+            int countEnum = Enum.GetNames(typeof(CategoryEnum)).Length;
+
+            IngredientData[] temp;
+            for (int i = 0; i < countEnum; i++)
+            {
+                temp = Array.FindAll(ingredientList.ingredients, ele => ele.category == i && ele.Amount > 0);
+                //Debug.Log("temp " + temp.Length + " cate " + i);
+                if (temp != null && temp.Length > 0)
+                {
+                    ingredientToggles.Add(shoppingCanvasManager.InstanciateCategoryPrefab(((CategoryEnum)i).ToString()));
+                    foreach (IngredientData ingrdient in temp)
+                    {
+                        if (ingrdient.Amount > 0)
+                            ingredientToggles.Add(shoppingCanvasManager.InstanciatetogglePrefab(ingrdient.Amount, ingrdient.id));
+                    }
+                }
+            }
+        }
     }
     
 }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ToggleManager : MonoBehaviour
+public class IngredientToggleManager : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField]
     private Text amount;
     [SerializeField]

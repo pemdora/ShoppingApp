@@ -7,34 +7,33 @@ using System;
 // https://stackoverflow.com/questions/36239705/serialize-and-deserialize-json-and-json-array-in-unity
 public class JsonParser : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public void Init()
+#pragma warning disable 0649
+
+    // Read
+    public void ReadAndImportJsonDataFiles()
     {
         // IngredientDatabase
-        var jsonTextFile = Resources.Load<TextAsset>("IngredientDatabase");
+        TextAsset jsonTextFile = Resources.Load<TextAsset>("IngredientDatabase");
         MainManager.Instance.ingredientList = IngredientDatabase.CreateFromJSON(jsonTextFile.ToString());
 
 
         // Reading recipes
-        jsonTextFile = Resources.Load<TextAsset>("Recette");
-        Recette rec = Recette.CreateFromJSON(jsonTextFile.ToString(), MainManager.Instance.ingredientList.ingredients);
-
-        foreach (var ingredient in rec.ingredients)
+        TextAsset[] jsonTextFiles = Resources.LoadAll<TextAsset>("Recipes"); // in folder Resource/Recipes/
+        if (jsonTextFiles.Length > 0)
         {
-            MainManager.Instance.ingredientList.ingredients[ingredient.databaseId].Amount += ingredient.amount;
+            MainManager.Instance.recipes = new List<Recipe>();
+
+            foreach (TextAsset jsonText in jsonTextFiles)
+            {
+                Recipe rec = Recipe.CreateFromJSON(jsonText.ToString(), MainManager.Instance.ingredientList.ingredients);
+                MainManager.Instance.recipes.Add(rec);
+                
+            }
         }
-
-        //Debug.Log(recetteParsed.Items.ToString());
-        //rec.ingredientsList = JsonHelper.FromJson<Ingredient>(rec.items);
-        //Debug.Log(rec.ingredientsList[0].title);
-        //Debug.Log(recetteParsed.Items[0]);
-        //var jsonString = File.ReadAllText(path);
-        //JSONNode data = JSON.Parse(jsonString);
-
     }
 
     [System.Serializable]
-    public struct Recette
+    public struct Recipe
     {
         public string title;
         public int numberOfPeople;
@@ -53,12 +52,12 @@ public class JsonParser : MonoBehaviour
 
 
         // TODO INVALID JSON
-        public static Recette CreateFromJSON(string jsonString, IngredientData[] ingredientDBList)
+        public static Recipe CreateFromJSON(string jsonString, IngredientData[] ingredientDBList)
         {
-            Recette recetteParsed;
+            Recipe recetteParsed;
             try
             {
-                recetteParsed = JsonUtility.FromJson<Recette>(jsonString);
+                recetteParsed = JsonUtility.FromJson<Recipe>(jsonString);
                 for(int i=0; i< recetteParsed.ingredients.Length;i++)
                 {
                     int id = Array.FindIndex(ingredientDBList, element => element.id == recetteParsed.ingredients[i].title);
@@ -135,8 +134,7 @@ public class JsonParser : MonoBehaviour
             }
             set
             {
-                if(value>0)
-                    amount = value;
+                amount = value;
             }
         }
 
