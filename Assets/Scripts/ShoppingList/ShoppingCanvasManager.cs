@@ -20,10 +20,10 @@ public class ShoppingCanvasManager : MonoBehaviour
         return go;
     }
 
-    public GameObject InstanciatetogglePrefab(float amount, string title)
+    public GameObject InstanciatetogglePrefab(float amount, string amountType, string title)
     {
        GameObject go = Instantiate(togglePrefab, contentParent);
-        go.GetComponent<IngredientToggleManager>().FillText(amount,title);
+        go.GetComponent<IngredientToggleManager>().FillText(amount, amountType,title);
         return go;
     }
 }

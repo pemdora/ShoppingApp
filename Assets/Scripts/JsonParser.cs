@@ -117,6 +117,7 @@ public class JsonParser : MonoBehaviour
         public enum CategoryEnum { Légumes, Fruits, Huile, Pate_a_dérouler,Condiments,Poisson};
         private bool isChecked;
         private float amount;
+        public string amountType;
 
         public CategoryEnum Category
         {

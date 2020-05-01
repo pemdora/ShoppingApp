@@ -110,8 +110,7 @@ public class MainManager : MonoBehaviour
                     ingredientToggles.Add(shoppingCanvasManager.InstanciateCategoryPrefab(((CategoryEnum)i).ToString()));
                     foreach (IngredientData ingrdient in temp)
                     {
-                        if (ingrdient.Amount > 0)
-                            ingredientToggles.Add(shoppingCanvasManager.InstanciatetogglePrefab(ingrdient.Amount, ingrdient.id));
+                        ingredientToggles.Add(shoppingCanvasManager.InstanciatetogglePrefab(ingrdient.Amount, ingrdient.amountType, ingrdient.id));
                     }
                 }
             }

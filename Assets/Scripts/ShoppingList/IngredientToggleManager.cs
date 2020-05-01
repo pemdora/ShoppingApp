@@ -9,6 +9,8 @@ public class IngredientToggleManager : MonoBehaviour
     [SerializeField]
     private Text amount;
     [SerializeField]
+    private Text amountType;
+    [SerializeField]
     private Text label;
     private Color defaultColor;
     [SerializeField]
@@ -20,9 +22,10 @@ public class IngredientToggleManager : MonoBehaviour
         defaultColor = label.color;
     }
 
-    public void FillText(float _amount,string text)
+    public void FillText(float _amount,string _amountType, string text)
     {
         amount.text = _amount.ToString();
+        amountType.text = _amountType;
         label.text = text;
     }
 
@@ -33,11 +36,13 @@ public class IngredientToggleManager : MonoBehaviour
         {
             amount.color = checkedColor;
             label.color = checkedColor;
+            amountType.color = checkedColor;
         }
         else
         {
             amount.color = defaultColor;
             label.color = defaultColor;
+            amountType.color = defaultColor;
         }
     }
 }
